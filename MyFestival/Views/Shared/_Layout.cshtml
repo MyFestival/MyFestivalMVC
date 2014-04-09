@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/carousel.css" rel="stylesheet" />
+    <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
+    <!--<script src="~/Scripts/EFSpatialGoogleMaps.js"></script>-->
+</head>
+<body>
+@*    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=330449907066960";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>*@
+    <div class="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("MyFestival.ie", "Index", "Home", null, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <ul></ul>
+                        <li><a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a href="@Url.Action("Festival", "Home")"><span class="glyphicon glyphicon-list-alt"></span> Festival</a></li>
+                        <li><a href="@Url.Action("About", "Home")"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                        <li><a href="@Url.Action("Contact", "Home")"><span class="glyphicon glyphicon-pencil"></span> Contact</a></li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br />
+    <br />
+    @RenderSection("scripts", required: false)
+    <div class="container marketing">
+            @RenderBody()
+
+        <footer class="featurette-divider"></footer>
+            <p style="margin: 10px;">&copy; @DateTime.Now.Year - MyFestival.ie</p>
+        <p class="pull-right">
+                
+            <a href="#"><i style="margin-right: 20px" class="glyphicon glyphicon-chevron-up"></i></a>
+        </p>
+    </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>

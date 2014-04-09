@@ -1,0 +1,267 @@
+﻿@model MyFestival.Models.FestivalVM
+@{
+    ViewBag.Title = "Add a Festival";
+    Layout = "~/Views/Shared/Festival.cshtml";
+}
+
+<h2>Create Your Festival</h2>
+<br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <ol class="breadcrumb">
+            <li><a href="~/Festival/">Home</a></li>
+            <li class="active">Creating a Festival</li>
+        </ol>
+
+        <hr />
+        @Html.ValidationSummary(true, null, new{@class="alert alert-danger"})
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FestivalName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                    @Html.TextBoxFor(model => model.FestivalName, new { @class = "form-control", @style = "width:210px" })
+                </div>
+                @Html.ValidationMessageFor(model => model.FestivalName, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.startDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    @Html.TextBoxFor(model => model.startDate, new { @class = "form-control datepicker", @style = "width:250px" })
+                </div>
+                @Html.ValidationMessageFor(model => model.startDate, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.endDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    @Html.TextBoxFor(model => model.endDate, new { @class = "form-control datepicker", @style = "width:250px" })
+                </div>
+                <!--<input class="form-control datepicker" style="width:250px" name="endDate" placeholder="Please pick date..."/>-->
+                @Html.ValidationMessageFor(model => model.endDate, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Towns, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                    @Html.DropDownListFor(p => p.SelectedTown, Model.Towns.Select(p => new SelectListItem()
+                {
+                    Text = p.Value.ToString(),
+                    Value = p.Key.ToString(),
+                    Selected = false
+                }),
+                    new
+                    {
+                        @class = "form-control",
+                        @style = "width:210px",
+                        placeholder = "---- Select a Town ----"
+                    })
+                </div>
+                @Html.ValidationMessageFor(model => model.Towns, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.County, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                    @Html.DropDownListFor(p => p.SelectedCounty, Model.County.Select(p => new SelectListItem()
+                {
+                    Text = p.Value.ToString(),
+                    Value = p.Key.ToString(),
+                    Selected = false
+                }),
+                    new
+                    {
+                        @class = "form-control",
+                        @style = "width:210px"
+                    })
+                </div>
+                @Html.ValidationMessageFor(model => model.County, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FestivalType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                    @Html.DropDownListFor(p => p.SelectedFestivalType, Model.FestivalType.Select(p => new SelectListItem()
+                    {
+                        Text = p.Value.ToString(),
+                        Value = p.Key.ToString(),
+                        Selected = false
+                    }),
+                        new
+                        {
+                            @class = "form-control",
+                            @style = "width:210px;",
+                            @onchange = "checkaddnew();"
+                        })
+                </div>
+                @Html.ValidationMessageFor(model => model.FestivalType, null, new { @style = "color:red;" })
+
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.sDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                    @Html.TextAreaFor(model => model.sDescription, new { @class = "form-control", @style = "width:210px;" })
+                </div>
+                @Html.ValidationMessageFor(model => model.sDescription, null, new { @style = "color:red;" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                    @Html.TextAreaFor(model => model.Location, new { @class = "form-control", @style = "width:210px" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Location, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.festivalLogo, new{@class="control-label col-md-2"})
+            <div class="col-md-10">
+                <input name="imageFile" id="File" type="file"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" />
+
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("CreateFestivalType", new MyFestival.Models.FestivalTypeVM())
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $('#SelectedFestivalType').change(function () {
+                if ($(this).find(":selected").val() == -1) {
+                    $('#myModal').modal('show');
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function ajaxResponse(data) {
+            alert("This Worked and the Data ID is: " + data.FestivalTypeID);
+            var newOption = "<option value='" + data.FestivalTypeID + "'>" + data.Name + "</option>";
+            $('#SelectedFestivalType').append(newOption);
+            $('#myModal').modal('hide');
+
+            $("#SelectedFestivalType option[value='" + data.FestivalTypeID + "']").attr("selected", "selected");
+        }
+
+        ;
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#startDate").datepicker("setDate", '+1', { dateFormat: "dd/mm/yy" }).on('changeDate', function (ev) {
+                $(this).blur();
+                $(this).datepicker('hide');
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#endDate").datepicker("setDate", '+2', { dateFormat: "dd/mm/yy" }).on('changeDate', function (ev) {
+                $(this).blur();
+                $(this).datepicker('hide');
+            });
+        });
+    </script>
+
+    <!--<script type="text/javascript">
+        $(function () {
+            $("#startDate").datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                yearRange: ":2016",
+                minDate: "dateToday",
+                onClose: function (selectedDate) {
+                    var myDate = $(this).datepicker('getDate'); 
+                    myDate.setDate(myDate.getDate()+1); 
+                    $('#endDate').datepicker('setDate', myDate);
+                }
+            });
+    
+            $("#endDate").datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 2,
+                yearRange: ":2016",
+            });
+    
+            $("#startDate").datepicker("setDate", "0");
+            $("#endDate").datepicker("setDate", "1");
+        });
+
+    </script>-->
+
+    @*<script type="text/javascript">
+        $(document).ready(function (){            
+            var nowTemp = new Date();
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+ 
+            var checkin = $('#startDate').datepicker({
+                onRender: function(date) {
+                    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                }
+            }).on('changeDate', function(ev) {
+                if (ev.date.valueOf() > checkout.date.valueOf()) {
+                    var newDate = new Date(ev.date)
+                    newDate.setDate(newDate.getDate() + 1);
+                    checkout.setValue(newDate);
+                }
+                checkin.hide();
+                $('#endDate')[0].focus();
+            }).data('datepicker');
+            var checkout = $('#endDate').datepicker({
+                onRender: function(date) {
+                    return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+                }
+            }).on('changeDate', function(ev) {
+                checkout.hide();
+            }).data('datepicker');
+        });
+    </script>*@
+
+    @*<script>$(".chzn_a").prepend("<option></option>");</script>*@
+}
+

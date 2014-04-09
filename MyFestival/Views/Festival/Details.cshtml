@@ -1,0 +1,164 @@
+﻿@model MyFestival.Models.Festival
+
+@{
+    ViewBag.Title = "Festival Details";
+    Layout = "~/Views/Shared/Festival.cshtml";
+}
+<div style="background-color: white;">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="width: 50%;">Details for Festival: @Model.FestivalName</h3>
+        </div>
+        <div class="table-responsive">
+            <!--<div class="table">-->
+            <table class="table">
+                <tr>
+                    <th>Festival Logo</th>
+                    <th>Festival Name
+                    </th>
+                    <th>Start Date
+                    </th>
+                    <th>End Date
+                    </th>
+                    <th>Town
+                    </th>
+                    <th>County
+                    </th>
+                    <th>Festival Type
+                    </th>
+                    <th>Options
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @if (@Model.FestivalLogo != null)
+                        {
+                            @Html.DisplayFor(model => model.FestivalLogo, new { @class = "img-rounded", style = "width: 100px" })
+                        }
+                        else
+                        {
+                            <img class="img-rounded" style="width: 200px" src="~/Content/FestivalLogo/download.jpg" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.FestivalName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.FestivalTown.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.FestivalCounty.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.FType.FType)
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li role="presentation" class="dropdown-header">Festival</li>
+                                <li><a href="@Url.Action("Edit2", new { id = Model.FestivalId })"><span class="glyphicon glyphicon-pencil"></span>Edit @Model.FestivalName</a></li>
+                                <li><a href="@Url.Action("Delete", new { id = Model.FestivalId })"><span class="glyphicon glyphicon-trash"></span>Delete @Model.FestivalName</a></li>
+                                <li>@Html.ActionLink("Back to List", "Index")</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+        <div class=".col-md-8" onload="initialize()" onunload="GUnload()">
+            @Html.LabelFor(model => model.Location, null, new { @class = "control-label" })
+            @Html.DisplayFor(model => model.Location)
+        </div>
+        <br />
+        @if (Model.Events != null)
+        {
+            <center>
+            <div class="well well-sm" style="width:400px">
+                @if (Model.Events.Count() != 1)
+                {
+                    <h5>@Model.FestivalName has @Model.Events.Count() Events, why don't you add one?</h5>
+                }
+                @if (Model.Events.Count() == 1)
+                {
+                    <h5>@Model.FestivalName has @Model.Events.Count() Event.</h5>
+                }
+            </div>
+        </center>
+            @Html.ActionLink("Add Event", "Create2", "Events", new { festID = Model.FestivalId }, new { @class = "btn btn-primary" })
+            <br />
+            <br />
+            <!--<div class="table-responsive">-->
+            <div class="table">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Events Logo
+                        </th>
+                        <th>Events Name
+                        </th>
+                        <th>Events Date
+                        </th>
+                        <th>Start Time
+                        </th>
+                        <th>End Time
+                        </th>
+                        <th>Options
+                        </th>
+                    </tr>
+
+                    @foreach (var e in Model.Events)
+                    {
+                        <tr>
+                            <td>
+                                @if (e.EventLogo != null)
+                                {
+                                    @Html.DisplayFor(modelItem => e.EventLogo, new { @class = "img-circle" })
+                                }
+                                else
+                                {
+                                    <img class="img-rounded" style="width: 50%;" src="~/Content/EventPicture/download.jpg" />
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => e.EventsName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => e.EventsDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => e.StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => e.EndTime)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li role="presentation" class="dropdown-header">Event</li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a href="@Url.Action("Edit2", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-pencil"></span>Edit @e.EventsName</a></li>
+                                        <li><a href="@Url.Action("Details", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-list-alt"></span>Details @e.EventsName</a></li>
+                                        <li><a href="@Url.Action("Delete", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-trash"></span>Delete @e.EventsName</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>  
+        }
+    </div>
+</div>

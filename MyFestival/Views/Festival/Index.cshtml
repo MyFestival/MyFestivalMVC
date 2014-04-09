@@ -1,0 +1,115 @@
+﻿@model PagedList.IPagedList<MyFestival.Models.Festival>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Festival Dashboard";
+    Layout = "~/Views/Shared/Festival.cshtml";
+}
+<button class="btn btn-info">Show all</button>
+<button class="btn btn-info">Today onwards</button>
+<br/>
+<br/>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        @if (Model.Count() != 1)
+        {
+            <h3 class="panel-title" style="width: 50%;">Hi @User.Identity.Name, you have added @Model.Count() Festival's.</h3>
+        }
+        else
+        {
+            <h3 class="panel-title" style="width: 50%;">Hi @User.Identity.Name, you have added @Model.Count() Festival.</h3>
+        }
+
+        @Html.ActionLink("Create New Festival", "Create2", null, new { @class = "btn btn-primary", style = "float: right; margin-top: -27px;" })
+    </div>
+    <!--<div class="table-responsive">-->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr class="info">
+                <th>
+                    Festival Logo
+                </th>
+                <th>
+                    Festival Name
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Town
+                </th>
+                <th>
+                    County
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>Options</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.FestivalLogo != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.FestivalLogo, new { @class = "img-rounded", style="width: 200px" })
+                        }
+                        else
+                        {
+                            <img class="img-rounded" style="width: 200px" src="~/Content/FestivalLogo/download.jpg" />
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", null, new{id = item.FestivalId})">@Html.DisplayFor(modelItem => item.FestivalName)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FestivalTown.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FestivalCounty.Name)
+                    </td>
+                    <td>
+                        @if (item.Description != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.Description)
+                        }
+                        else
+                        {
+                            <h4><span class="label label-danger">Description not available.</span></h4>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            @*                        <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown">Options</button>*@
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li role="presentation" class="dropdown-header">Festival</li>
+                                <li><a href="@Url.Action("Edit2", new { id = item.FestivalId })"><span class="glyphicon glyphicon-pencil"></span> Edit @item.FestivalName</a></li>
+                                <li><a href="@Url.Action("Details", new { id = item.FestivalId })"><span class="glyphicon glyphicon-list-alt"></span> Details @item.FestivalName</a></li>
+                                <li><a href="@Url.Action("Delete", new { id = item.FestivalId })"><span class="glyphicon glyphicon-remove"></span> Delete @item.FestivalName</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation" class="dropdown-header">Event</li>
+                                <li role="presentation" class="dropdown-header">Can be found in Details of <strong style="font-size: small;" class="label label-info">your festival</strong>.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", "Festival", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>

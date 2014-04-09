@@ -1,0 +1,38 @@
+﻿@model MyFestival.Models.LocalPasswordModel
+@{
+    ViewBag.Title = "Manage Account";
+    Layout = "~/Views/Shared/Festival.cshtml";
+}
+<div style="background-color: white;">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h1  class="panel-title" style="width: 50%;">@ViewBag.Title.</h1>
+        </div>
+        @ViewBag.StatusMessage
+        <br/>
+        <br/>
+        <div style="margin: 10px;">
+        <section>
+            @if (ViewBag.HasLocalPassword)
+            {
+                @Html.Partial("_ChangePasswordPartial")
+            }
+            else
+            { 
+                @Html.Partial("_SetPasswordPartial")
+            }
+        </section>
+        <br />
+            <section id="externalLogins">
+                @Html.Action("RemoveExternalLogins")
+
+
+                @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+            </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    </div>
+</div>

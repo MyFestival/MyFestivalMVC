@@ -1,0 +1,53 @@
+﻿@model MyFestival.Models.Events
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details of @Model.EventsName</h2>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.FestivalID)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.FestivalID)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.EventsName)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.EventsName)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.EventsDate)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.EventsDate)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.StartTime)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.StartTime)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.EndTime)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.EndTime)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Location)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Location)
+    <div>
+        @Html.ActionLink("Edit", "Edit2", new { id = Model.ID }, new { @class = "btn btn-warning" })
+        @Html.ActionLink("Details of festival", "Details", "Festival", new { id = Model.FestivalID }, new { @class = "btn btn-info" })
+    </div>
+</div>

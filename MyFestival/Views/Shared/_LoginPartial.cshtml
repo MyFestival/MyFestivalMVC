@@ -1,0 +1,32 @@
+﻿@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> Greetings @User.Identity.Name <b class="glyphicon glyphicon-chevron-down"></b></a>
+            
+            <ul class="dropdown-menu">
+                <li><a href="@Url.Action("Index", "Festival")"><span class="glyphicon glyphicon-list"></span> Your Festival dashboard</a></li>
+                <li><a href="@Url.Action("Manage", "Account")"><span class="glyphicon glyphicon-wrench"></span> Manage Your Account</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="glyphicon glyphicon-log-out"></i> Log off</a></li>
+            </ul>
+        </li>
+    </ul>
+    }
+}
+else
+{
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> Account <b class="glyphicon glyphicon-chevron-down"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="@Url.Action("Register", "Account")"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
+                <li><a href="@Url.Action("Login", "Account", "Account")"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </li>
+    </ul>
+}

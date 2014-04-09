@@ -1,0 +1,128 @@
+﻿@model MyFestival.Models.EventsVM
+
+@{
+    ViewBag.Title = "Edit Your Event";
+    Layout = "~/Views/Shared/Festival.cshtml";
+}
+
+<h2>Edit Your Event @Model.EventsName</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventsName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.EventsName, new { @class = "form-control", style="width: 210px;" })
+                @Html.ValidationMessageFor(model => model.EventsName, null, new { @style = "color:red;" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.eventsDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.eventsDate, new { @class = "form-control", style="width: 210px;" })
+                @Html.ValidationMessageFor(model => model.eventsDate, null, new { @style = "color:red;" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.startTime, new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.startTime, new { @class = "form-control", style="width: 210px;" })
+                @Html.ValidationMessageFor(model => model.startTime, null, new { @style = "color:red;" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.endTime, new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.endTime, new { @class = "form-control", style="width: 210px;" })
+                @Html.ValidationMessageFor(model => model.endTime, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.eType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(p => p.selectedEType, 
+                                        Model.eType.Select(p => new SelectListItem()
+                                        {
+                                            Text = p.Value.ToString(), Value = p.Key.ToString(), Selected = false
+                                        }), 
+                                        new { @class = "form-control", @style = "width:250px", @onchange = "checkaddnew();" })
+
+                @Html.ValidationMessageFor(model => model.eType, null, new { @style = "color:red;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Location, new { @style="width:300px;", @class = "form-control", @rows = "3" })
+                @Html.ValidationMessageFor(model => model.Location, null, new { @style = "color:red;" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.eventsImage,new{@class="control-label col-md-2"})
+            <div class="col-md-10">
+                <input name="imageFile" id="File" type="file"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+                @Html.ActionLink("Back to List", "Index", "Festival", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("CreateEventType", new MyFestival.Models.EventTypeVM())
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+        <script>
+            $(document).ready(function () {
+                $('#selectedEType').change(function () {
+                    if ($(this).find(":selected").val() == -1) {
+                        $('#myModal').modal('show');
+                    }
+                });
+            });
+    </script>
+
+    <script type="text/javascript">
+        function ajaxResponse(data) {
+            alert("This Worked and the Data ID is: " + data.EventTypeID);
+            var newOption = "<option value='" + data.EventTypeID + "'>" + data.Name + "</option>";
+            $('#selectedEType').append(newOption);
+            $('#myModal').modal('hide');
+
+            $("#selectedEType option[value='" + data.EventTypeID + "']").attr("selected", "selected");
+        };
+    </script>
+    
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#eventsDate").datepicker().on('changeDate', function (ev) {
+                    $(this).blur();
+                    $(this).datepicker('hide');
+                });
+            });
+    </script>
+
+}

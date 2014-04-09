@@ -1,0 +1,22 @@
+body{
+    background: url(http://mymaplist.com/img/parallax/back.png);
+	background-color: #444;
+    background: url(http://mymaplist.com/img/parallax/pinlayer2.png),url(http://mymaplist.com/img/parallax/pinlayer1.png),url(http://mymaplist.com/img/parallax/back.png);    
+}
+
+.vertical-offset-100{
+    padding-top:100px;
+}
+
+.radio, .checkbox {
+display: block;
+min-height: 20px;
+padding-left: 20px;
+margin-top: 10px;
+margin-bottom: 10px;
+vertical-align: middle;
+}
+
+.pull-right {
+float: right!important;
+}

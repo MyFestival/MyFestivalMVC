@@ -1,0 +1,6 @@
+﻿@model System.Data.Spatial.DbGeography
+@if (Model != null) {
+  @Html.TextBox("", Model.Latitude + "," + Model.Longitude, new { @class = "form-control", disabled="disable" })
+} else {
+  @Html.TextBox("", "", new { @class = "form-control" }) 
+}

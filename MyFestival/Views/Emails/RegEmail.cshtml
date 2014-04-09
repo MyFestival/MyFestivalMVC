@@ -1,0 +1,33 @@
+﻿To: @ViewBag.To
+From: patrickmelia@hotmail.com
+Subject: Important Message to activate your account with MyFestival.ie
+Content-Type: text/html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RegEmail.Html</title>
+</head>
+<body>
+    <div>
+        <p>Hello @ViewBag.UserName,</p>
+        <br />
+        <p>
+            Thanks for registering with MyFestival.ie .
+            To confirm your account, please click on the link <a href="http://@(ViewBag.HostLocation)/Account/RegisterConfirmation?confirm=@(@ViewBag.ConfirmationToken)" title="Click here to confirm your account">Here</a><br />
+            Please also keep this token key encase you have a problem: @ViewBag.ConfirmationToken.<br />
+            If the link does not work due to restrictions in your email client then please copy this link into your browser:<br />
+            http://@(ViewBag.HostLocation)/Account/RegisterConfirmation?confirm=@(@ViewBag.ConfirmationToken)
+
+        </p>
+        <br />
+        <p>
+            Regards,
+            <br />
+            Patrick Melia.
+            MyFestival.ie
+        </p>
+    </div>
+</body>
+</html>

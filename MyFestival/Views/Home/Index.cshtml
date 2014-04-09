@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators-->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img data-src="holder.js/900x500/auto/#777:#7a7a7a/text:First slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Broadcast your festival.</h1>
+                    <p>On this site you'll can create an account for your festival, and broadcast your festival to the world</p>
+                    <br />
+                    <p><a class="btn btn-lg btn-primary" href="~/Account/Register" role="button">Sign up today</a></p>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img data-src="holder.js/900x500/auto/#666:#6a6a6a/text:Second slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Does your festival need an app?</h1>
+                    <p>We'll have you covered with just a small fee, we'll create one for you.</p>
+                    <br />
+                    <p><a class="btn btn-lg btn-info" href="~/Home/About" role="button">Learn more</a></p>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Third slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>It's simple as that!</h1>
+                    <p>What are you waiting for, jump in and see what MyFestival has in store for you!</p>
+                    <p>Need any help?</p>
+                    <br />
+                    <p><a class="btn btn-lg btn-success" href="~/Home/Contact" role="button">Contact us</a></p>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-md-4">
+        <a class="twitter-timeline"  href="https://twitter.com/MyFestivalie"  data-widget-id="444432149026840576">Tweets by MyFestivalie</a>
+        <script>
+            !function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0],
+                    p = /^http:/.test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                    js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }
+            }(document, "script", "twitter-wjs");
+        </script>
+    </div>
+    <div class="col-xs-6 col-md-5">
+    </div>
+    <div class="col-xs-6 col-md-5">
+    </div>
+</div>

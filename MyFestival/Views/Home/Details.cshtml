@@ -1,0 +1,97 @@
+﻿@model MyFestival.Models.Festival
+
+@{
+    ViewBag.Title = "Festival Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="width: 50%;">@Html.DisplayFor(model => model.FestivalName)</h3>
+    </div>
+
+    <div class="panel-body col-xs-12 col-sm-6 col-md-12" style="border: 1px solid blue;">
+        <article class="search-result row">
+            <div class="col-xs-12 col-sm-12 col-md-3">
+                @if (Model.FestivalLogo != null)
+                {
+                    @Html.DisplayFor(model => model.FestivalLogo, new { @class = "img-thumbnail" })
+                }
+                else
+                {
+                    <img class="img-thumbnail" style="width: 200px; height: 150px;" src="~/Content/FestivalLogo/download.jpg" />
+                }
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2">
+                <ul class="meta-search">
+                    <li><i class="glyphicon glyphicon-calendar"></i>Start: @Html.DisplayFor(model => model.StartDate)</li>
+                    <li><i class="glyphicon glyphicon-calendar"></i>End: @Html.DisplayFor(model => model.EndDate)</li>
+                    <li><i class="glyphicon glyphicon-tags"></i>@Html.DisplayFor(model => model.FType.FType)</li>
+                    <li><i class="ui-icon-pin-w"></i>@Html.DisplayFor(model => model.FestivalTown.Name), @Html.DisplayFor(model => model.FestivalCounty.Name)</li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                @if (Model.Description != null)
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else
+                {
+                    <h4><span class="label label-danger">Description not available.</span></h4>
+                }
+            </div>
+            <span class="clearfix borda"></span>
+        </article>
+        <hr />
+    </div>
+    @if (Model.Events != null)
+    {
+        <!--<div class="table-responsive">-->
+        <div class="table">
+            <table class="table table-striped">
+                <tr>
+                    <th>Events Logo
+                    </th>
+                    <th>Events Name
+                    </th>
+                    <th>Events Date
+                    </th>
+                    <th>Start Time
+                    </th>
+                    <th>End Time
+                    </th>
+                </tr>
+
+                @foreach (var e in Model.Events)
+                {
+                    <tr>
+                        <td>
+                            @if (e.EventLogo != null)
+                            {
+                                @Html.DisplayFor(modelItem => e.EventLogo, new { @class = "img-circle" })
+                            }
+                            else
+                            {
+                                <img class="img-rounded" src="~/Content/EventPicture/download.jpg" />
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Event", new { id = e.ID })">@Html.DisplayFor(modelItem => e.EventsName)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => e.EventsDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => e.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => e.EndTime)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>  
+    }
+
+</div>

@@ -1,0 +1,95 @@
+﻿@model PagedList.IPagedList<MyFestival.Models.Festival>
+@using PagedList.Mvc; 
+
+@{
+    ViewBag.Title = "Find a Festival";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="width: 50%;">What Festival are you looking for?</h3>
+
+            <button id="bsearch" style="float: right; margin-top: -27px;" class="btn btn-info">Search</button>
+            <button id="cancel" style="float: right; margin-top: -27px; margin-left: 2px;" class="btn btn-warning">Cancel</button>
+
+            @using (Html.BeginForm("Festival", "Home", FormMethod.Get))
+            {
+                <div id="search">
+                    <input type="text" style="padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
+                    <button  id="find" type="submit" style="float: right; margin-top: -27px; margin-left: 2px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
+                </div>
+            }
+
+        </div>
+
+        <div class="panel-body col-xs-12 col-sm-6 col-md-12" style="border: 1px solid blue;">
+            @foreach (var f in Model)
+            {
+                <article class="search-result row">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        @if (f.FestivalLogo != null)
+                        {
+                            @Html.DisplayFor(modelItem => f.FestivalLogo, new { @class = "img-thumbnail" })
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" style="width: 200px; height: 150px;" src="~/Content/FestivalLogo/download.jpg" />
+                        }
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2">
+                        <ul class="meta-search">
+                            <li><i class="glyphicon glyphicon-calendar"></i>Start: @Html.DisplayFor(modelItem => f.StartDate)</li>
+                            <li><i class="glyphicon glyphicon-calendar"></i>End: @Html.DisplayFor(modelItem => f.EndDate)</li>
+                            <li><i class="glyphicon glyphicon-tags"></i>@Html.DisplayFor(modelItem => f.FType.FType)</li>
+                            <li><i class="ui-icon-pin-w"></i>@Html.DisplayFor(modelItem => f.FestivalTown.Name), @Html.DisplayFor(modelItem => f.FestivalCounty.Name)</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                        <h3><a href="@Url.Action("Details", new { id = f.FestivalId })">@Html.DisplayFor(modelItem => f.FestivalName)</a></h3>
+                        @if (f.Description != null)
+                        {
+                            @Html.DisplayFor(modelItem => f.Description)
+                        }
+                        else
+                        {
+                            <h4><span class="label label-danger">Description not available.</span></h4>
+                        }
+                        <span class="plus"><a href="@Url.Action("Details", new { id = f.FestivalId })"><i class="glyphicon glyphicon-plus"></i></a></span>
+                    </div>
+                    <span class="clearfix borda"></span>
+                </article>
+                <hr />
+            }
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Festival", "Home", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+    $("#search").hide();
+    $("#cancel").hide();
+    $("#find").hide();
+    $("#bsearch").click(function () {
+        $("#search").toggle();
+        $("#cancel").toggle();
+        $("#find").toggle();
+        $("#bsearch").hide();
+    });
+</script>
+
+<script>
+    $("#cancel").click(function () {
+        $("#search").hide();
+        $("#cancel").hide();
+        $("#find").hide();
+        $("#bsearch").toggle();
+    });
+</script>
+
+
+
+

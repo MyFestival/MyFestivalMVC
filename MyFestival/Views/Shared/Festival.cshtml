@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/festival")
+    @Scripts.Render("~/bundles/festival")
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet"/>*@
+    <!--<link href="~/Content/signin.css" rel="stylesheet" />-->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="~/Scripts/EFSpatialGoogleMaps.js"></script>
+</head>
+<body style="background-color: whitesmoke;">
+    <div class="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar navbar-default" style="border-color: black;" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Festival Dashboard", "Index", "Festival", null, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span> Back to main page</a></li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="container" style="background-color: whitesmoke;">
+            @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MyFestival.ie</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

@@ -1,0 +1,48 @@
+﻿@model MyFestival.Models.Events
+
+@{
+    ViewBag.Title = "Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="width: 50%;">@Html.DisplayFor(model => model.EventsName)</h3>
+        </div>
+
+        <div class="panel-body col-xs-12 col-sm-6 col-md-12" style="border: 1px solid blue;">
+                <article class="search-result row">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        @if (Model.EventLogo != null)
+                        {
+                            @Html.DisplayFor(model => model.EventLogo, new { @class = "img-thumbnail" })
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" style="width: 200px; height: 150px;" src="~/Content/EventPicture/download.jpg" />
+                        }
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2">
+                        <ul class="meta-search">
+                            <li><i class="glyphicon glyphicon-calendar"></i>Events Date: @Html.DisplayFor(model => model.EventsDate)</li>
+                            <li><i class="glyphicon glyphicon-time"></i>Start Date: @Html.DisplayFor(model => model.StartTime)</li>
+                            <li><i class="glyphicon glyphicon-time"></i>End Time: @Html.DisplayFor(model => model.EndTime)</li>
+                            <li><i class="glyphicon glyphicon-tags"></i>@Html.DisplayFor(model => model.EType.EType)</li>
+                            <li><i class="glyphicon glyphicon-tags"></i>@Html.DisplayFor(model => model.Location)</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                        @*@if (Model.Description != null)
+                        {
+                            @Html.DisplayFor(model => model.Description)
+                        }
+                        else
+                        {
+                            <h4><span class="label label-danger">Description not available.</span></h4>
+                        }*@
+                    </div>
+                    <span class="clearfix borda"></span>
+                </article>
+                <hr />
+        </div>
+    </div>
