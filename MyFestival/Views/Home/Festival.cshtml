@@ -1,5 +1,5 @@
 ﻿@model PagedList.IPagedList<MyFestival.Models.Festival>
-@using PagedList.Mvc; 
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Find a Festival";
@@ -7,27 +7,49 @@
 }
 
 
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title" style="width: 50%;">What Festival are you looking for?</h3>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="width: 50%;">What Festival are you looking for?</h3>
 
-            <button id="bsearch" style="float: right; margin-top: -27px;" class="btn btn-info">Search</button>
-            <button id="cancel" style="float: right; margin-top: -27px; margin-left: 2px;" class="btn btn-warning">Cancel</button>
+        <button id="bsearch" style="float: right; margin-top: -27px;" class="btn btn-info">Search</button>
+        <button id="cancel" style="float: right; margin-top: -27px; margin-left: 2px;" class="btn btn-warning">Cancel</button>
 
-            @using (Html.BeginForm("Festival", "Home", FormMethod.Get))
-            {
+        @using (Html.BeginForm("Festival", "Home", FormMethod.Get))
+        {
+            <center>
                 <div id="search">
-                    <input type="text" style="padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
-                    <button  id="find" type="submit" style="float: right; margin-top: -27px; margin-left: 2px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
+                    @* @Html.DropDownListFor(p => p.SelectedTown, Model.Towns.Select(p => new SelectListItem()
+                {
+                    Text = p.Value.ToString(),
+                    Value = p.Key.ToString(),
+                    Selected = false
+                }),
+                    new
+                    {
+                        @class = "form-control",
+                        @style = "width:210px",
+                        placeholder = "---- Select a Town ----"
+                    })*@
+                    <select class="form-control" style="width:210px">
+                        <option>Test</option>
+                    </select>
+                    <input type="text" style="width:210px; float: left; margin-top: -60px; margin-left: 808px; padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
+                    <button id="find" type="submit" style="float: right; margin-top: -60px; margin-right: 75px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
                 </div>
-            }
+            </center>
+            
+            <!--    <select class="form-control" style="width:210px;margin-top: -60px;"></select>
+                    <input type="text" style="width:210px; float: left; margin-top: -60px; margin-left: 808px; padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
+                    <button id="find" type="submit" style="float: right; margin-top: -60px; margin-right: 75px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
+                </div>-->
+        }
 
-        </div>
+    </div>
 
-        <div class="panel-body col-xs-12 col-sm-6 col-md-12" style="border: 1px solid blue;">
-            @foreach (var f in Model)
-            {
-                <article class="search-result row">
+    <div class="panel-body col-xs-12 col-sm-6 col-md-12" style="border: 1px solid blue;">
+        @foreach (var f in Model)
+        {
+            <article class="search-result row">
                     <div class="col-xs-12 col-sm-12 col-md-3">
                         @if (f.FestivalLogo != null)
                         {
@@ -60,12 +82,12 @@
                     </div>
                     <span class="clearfix borda"></span>
                 </article>
-                <hr />
-            }
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("Festival", "Home", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-        </div>
+            <hr />
+        }
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Festival", "Home", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     </div>
+</div>
 
 
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>

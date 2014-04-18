@@ -18,7 +18,7 @@ namespace MyFestival.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "What is our service about?";
+            ViewBag.Message = "What do we have to offer you?";
 
             return View();
         }
@@ -28,11 +28,12 @@ namespace MyFestival.Controllers
             return View();
         }
 
-        public ActionResult Festival(string searchString, string currentFilter, int? page)
+        public ActionResult Festival(string county, string searchString, string currentFilter, int? page)
         {
             MyFestivalDb db = new MyFestivalDb();
 
             var festivals = from f in db.Festivals
+                            orderby f.StartDate
                             where f.StartDate >= System.DateTime.Now
                             select f;
 
@@ -45,6 +46,12 @@ namespace MyFestival.Controllers
                 searchString = currentFilter;
             }
 
+            if (!String.IsNullOrEmpty(county))
+            {
+                festivals = festivals.Where(
+                    f => f.FestivalCounty.Name.ToUpper().Contains(county.ToUpper()) /*|| f => f.FestivalName.ToUpper().Contains(searchString.ToUpper())*/
+                );
+            }
             
             if (!String.IsNullOrEmpty(searchString))
             {

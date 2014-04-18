@@ -115,7 +115,7 @@ namespace MyFestival.Controllers
                     Newfestival.FestivalTown = db.Towns.Where(p => p.ID == model.SelectedTown).Single();
                     Newfestival.UserID = WebSecurity.CurrentUserId;
 
-                    if (Request.Files.Count != 0)
+                    if (Request.Files.Count > 0)
                     {
                         string fileName = Guid.NewGuid().ToString();
                         string serverPath = Server.MapPath("~\\Content\\FestivalLogo");
