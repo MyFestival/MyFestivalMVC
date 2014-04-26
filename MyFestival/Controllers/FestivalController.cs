@@ -8,6 +8,7 @@ using MyFestival.Models;
 using MyFestival.Filters;
 using PagedList;
 using WebMatrix.WebData;
+using System.Web;
 
 namespace MyFestival.Controllers
 {
@@ -56,7 +57,7 @@ namespace MyFestival.Controllers
         //
         // GET: /Festival/Details/5
 
-        public ActionResult Details(int id, DataTable tbl)
+        public ActionResult Details(int id)//, DataTable tbl)
         {
             int CurrentID = WebSecurity.CurrentUserId;
             Festival festival = db.Festivals.Find(id);
@@ -97,44 +98,47 @@ namespace MyFestival.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create2(FestivalVM model)
+        public ActionResult Create2(FestivalVM model, HttpPostedFileBase imageFile)
         {
-            if (ModelState.IsValid != true)
+            if (ModelState.IsValid != true) 
             {
+
                 if (model.SelectedFestivalType != -1)
                 {
                     //db.save stuff from create.
                     Festival Newfestival = new Festival();
-                    Newfestival.EndDate = model.endDate.Date;
+                    Newfestival.EndDate = model.endDate;
                     Newfestival.FestivalCounty = db.Counties.Where(p => p.ID == model.SelectedCounty).Single();
                     Newfestival.FestivalName = model.FestivalName;
                     Newfestival.Description = model.sDescription;
                     Newfestival.FType = db.FestivalTypes.Where(p => p.ID == model.SelectedFestivalType).Single();
-                    Newfestival.StartDate = model.startDate.Date;
+                    Newfestival.StartDate = model.startDate;
                     Newfestival.Location = model.Location;
                     Newfestival.FestivalTown = db.Towns.Where(p => p.ID == model.SelectedTown).Single();
                     Newfestival.UserID = WebSecurity.CurrentUserId;
 
                     if (Request.Files.Count > 0)
                     {
-                        string fileName = Guid.NewGuid().ToString();
+                        string fileName = model.FestivalName;
                         string serverPath = Server.MapPath("~\\Content\\FestivalLogo");
-                        Bitmap newImage = new Bitmap(Request.Files[0].InputStream);
+                        Bitmap newImage = new Bitmap(Request.Files["imageFile"].InputStream);
                         newImage.Save(serverPath + "\\" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                        model.festivalLogo = "Content/FestivalLogo/" + fileName + ".jpg";
+                        Newfestival.FestivalLogo = "../../Content/FestivalLogo/" + fileName + ".jpg";
+
 
                         db.Festivals.Add(Newfestival);
                         db.SaveChanges();
-                        return RedirectToAction("Details", new {id = Newfestival.FestivalId});
+                        TempData["festival"] = "Successfully added " + Newfestival.FestivalName +".";
+                        return RedirectToAction("Details", new { id = Newfestival.FestivalId });
                     }
                     else
                     {
                         db.Festivals.Add(Newfestival);
                         db.SaveChanges();
-                        return RedirectToAction("Details", new { id = Newfestival.FestivalId });   
+                        TempData["festival"] = "Successfully added " + Newfestival.FestivalName + ".";
+                        return RedirectToAction("Details", new { id = Newfestival.FestivalId });
                     }
                 }
-                ModelState.AddModelError("", "No Festival Type Picked");
             }
             model.County = db.Counties.ToDictionary(p => p.ID, q => q.Name);
             model.FestivalType = db.FestivalTypes.ToDictionary(p => p.ID, q => q.FType);
@@ -182,68 +186,44 @@ namespace MyFestival.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit2(FestivalVM model)
+        public ActionResult Edit2(FestivalVM model, HttpPostedFileBase imageFile)
         {
             if (ModelState.IsValid != true)
             {
                 if (model.SelectedFestivalType != -1)
                 {
+                    Festival fest = db.Festivals.Single(x => x.FestivalId == model.FestivalID);
+
+                    fest.FestivalId = model.FestivalID;
+                    fest.EndDate = model.endDate;
+                    fest.FestivalCounty = db.Counties.SingleOrDefault(p => p.ID == model.SelectedCounty);
+                    fest.FestivalName = model.FestivalName;
+                    fest.Description = model.sDescription;
+                    fest.FType = db.FestivalTypes.SingleOrDefault(p => p.ID == model.SelectedFestivalType);
+                    fest.StartDate = model.startDate;
+                    fest.Location = model.Location;
+                    fest.FestivalTown = db.Towns.SingleOrDefault(p => p.ID == model.SelectedTown);
+                    fest.UserID = WebSecurity.CurrentUserId;
+
                     if (Request.Files.Count != 0)
                     {
-                        string fileName = Guid.NewGuid().ToString();
-                        string serverPath = Server.MapPath("~\\Content\\Images\\Uploaded");
-                        Bitmap newImage = new Bitmap(Request.Files[0].InputStream);
+                        string fileName = model.FestivalName;
+                        string serverPath = Server.MapPath("~\\Content\\FestivalLogo");
+                        Bitmap newImage = new Bitmap(Request.Files["imageFile"].InputStream);
                         newImage.Save(serverPath + "\\" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                        model.festivalLogo = "/Content/Images/Uploaded/" + fileName + ".jpg";
-
-                        Festival fest = db.Festivals.Single(x => x.FestivalId == model.FestivalID);
-
-                        fest.FestivalId = model.FestivalID;
-                        fest.EndDate = model.endDate.Date;
-                        fest.FestivalCounty = db.Counties.SingleOrDefault(p => p.ID == model.SelectedCounty);
-                        fest.FestivalName = model.FestivalName;
-                        fest.Description = model.sDescription;
-                        fest.FType = db.FestivalTypes.SingleOrDefault(p => p.ID == model.SelectedFestivalType);
-                        fest.StartDate = model.startDate.Date;
-                        fest.Location = model.Location;
-                        fest.FestivalTown = db.Towns.SingleOrDefault(p => p.ID == model.SelectedTown);
-                        fest.UserID = WebSecurity.CurrentUserId;
+                        fest.FestivalLogo = "../../Content/FestivalLogo/" + fileName + ".jpg";
 
                         db.Entry(fest).State = EntityState.Modified;
                         db.SaveChanges();
-                        return RedirectToAction("Index", "Festival");
+                        TempData["festival"] = "Successfully update " + fest.FestivalName + ".";
+                        return RedirectToAction("Details", new { id = fest.FestivalId });
                     }
                     else
                     {
-                        Festival fest = db.Festivals.Single(x => x.FestivalId == model.FestivalID);
-
-                        fest.FestivalId = model.FestivalID;
-                        fest.EndDate = model.endDate.Date;
-                        fest.FestivalCounty = db.Counties.SingleOrDefault(p => p.ID == model.SelectedCounty);
-                        fest.FestivalName = model.FestivalName;
-                        fest.Description = model.sDescription;
-                        fest.FType = db.FestivalTypes.SingleOrDefault(p => p.ID == model.SelectedFestivalType);
-                        fest.StartDate = model.startDate.Date;
-                        fest.Location = model.Location;
-                        fest.FestivalTown = db.Towns.SingleOrDefault(p => p.ID == model.SelectedTown);
-                        fest.UserID = WebSecurity.CurrentUserId;
-                        
-                        //                        Festival f = new Festival
-                        //{
-                        //    FestivalId = model.FestivalID,
-                        //    EndDate = model.endDate.Date,
-                        //    FestivalCounty = db.Counties.Where(p => p.ID == model.SelectedCounty).Single(),
-                        //    FestivalName = model.FestivalName,
-                        //    FType = db.FestivalTypes.Where(p => p.ID == model.SelectedFestivalType).Single(),
-                        //    StartDate = model.startDate.Date,
-                        //    FestivalTown = db.Towns.Where(p => p.ID == model.SelectedTown).Single(),
-                        //    UserID = WebSecurity.CurrentUserId,
-                        //    FestivalLogo = model.festivalLogo
-                        //};
-
                         db.Entry(fest).State = EntityState.Modified;
                         db.SaveChanges();
-                        return RedirectToAction("Index", "Festival");
+                        TempData["festival"] = "Successfully update " + fest.FestivalName + ".";
+                        return RedirectToAction("Details", new { id = fest.FestivalId });
                     }
                 }
                 ModelState.AddModelError("", "No Festival Type Picked");
@@ -262,9 +242,16 @@ namespace MyFestival.Controllers
         public ActionResult Delete(int id = 0)
         {
             Festival festival = db.Festivals.Find(id);
+            int CurrentID = WebSecurity.CurrentUserId;
             if (festival == null)
             {
                 return HttpNotFound();
+            }
+            else
+            {
+                festival.Events = (from e in db.Events
+                                   where e.FestivalID.Equals(id) && festival.UserID == CurrentID
+                                   select e).ToList();
             }
             return View(festival);
         }
@@ -279,6 +266,7 @@ namespace MyFestival.Controllers
             Festival festival = db.Festivals.Find(id);
             db.Festivals.Remove(festival);
             db.SaveChanges();
+            TempData["deleted"] = "Successfully deleted " + festival.FestivalName + ".";
             return RedirectToAction("Index");
         }
 

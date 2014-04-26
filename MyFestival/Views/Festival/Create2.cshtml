@@ -6,7 +6,7 @@
 
 <h2>Create Your Festival</h2>
 <br />
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create2", "Festival", FormMethod.Post, new {enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
     

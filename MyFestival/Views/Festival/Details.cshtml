@@ -4,6 +4,20 @@
     ViewBag.Title = "Festival Details";
     Layout = "~/Views/Shared/Festival.cshtml";
 }
+@if (TempData["festival"] != null) 
+{
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p>@TempData["festival"]</p>
+    </div>
+}
+@if (TempData["event"] != null) 
+{
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p>@TempData["event"]</p>
+    </div>
+}
 <div style="background-color: white;">
     <div class="panel panel-success">
         <div class="panel-heading">
@@ -33,7 +47,7 @@
                     <td>
                         @if (@Model.FestivalLogo != null)
                         {
-                            @Html.DisplayFor(model => model.FestivalLogo, new { @class = "img-rounded", style = "width: 100px" })
+                            <img src="@Model.FestivalLogo" class = "img-thumbnail"  />
                         }
                         else
                         {
@@ -121,7 +135,7 @@
                             <td>
                                 @if (e.EventLogo != null)
                                 {
-                                    @Html.DisplayFor(modelItem => e.EventLogo, new { @class = "img-circle" })
+                                    <img src="@e.EventLogo" class = "img-thumbnail"  />
                                 }
                                 else
                                 {

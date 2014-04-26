@@ -6,7 +6,7 @@
 }
 
 <h2>Edit Your Event @Model.EventsName</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit2", "Events", FormMethod.Post, new {enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ID)

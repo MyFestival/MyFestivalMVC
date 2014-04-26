@@ -13,6 +13,7 @@ namespace MyFestival.Models
 
     public class Festival
     {
+        [Key]
         public int FestivalId { get; set; }
 
         [Required]
@@ -148,7 +149,7 @@ namespace MyFestival.Models
     public class FestivalType
     {
         public int ID { get; set; }
-        //[Display(Name = "Festival Type")]
+        [Display(Name = "Festival Type")]
         public string FType { get; set; }
     }
 

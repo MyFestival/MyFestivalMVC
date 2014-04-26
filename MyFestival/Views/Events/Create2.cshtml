@@ -7,7 +7,9 @@
 
 <h2>Add an event for #@Model.festivalID</h2>
 
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())
+{*@
+@using (Html.BeginForm("Create2", "Events", FormMethod.Post, new {enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
     

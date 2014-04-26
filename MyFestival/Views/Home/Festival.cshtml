@@ -50,42 +50,44 @@
         @foreach (var f in Model)
         {
             <article class="search-result row">
-                    <div class="col-xs-12 col-sm-12 col-md-3">
-                        @if (f.FestivalLogo != null)
-                        {
-                            @Html.DisplayFor(modelItem => f.FestivalLogo, new { @class = "img-thumbnail" })
-                        }
-                        else
-                        {
-                            <img class="img-thumbnail" style="width: 200px; height: 150px;" src="~/Content/FestivalLogo/download.jpg" />
-                        }
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-2">
-                        <ul class="meta-search">
-                            <li><i class="glyphicon glyphicon-calendar"></i>Start: @Html.DisplayFor(modelItem => f.StartDate)</li>
-                            <li><i class="glyphicon glyphicon-calendar"></i>End: @Html.DisplayFor(modelItem => f.EndDate)</li>
-                            <li><i class="glyphicon glyphicon-tags"></i>@Html.DisplayFor(modelItem => f.FType.FType)</li>
-                            <li><i class="ui-icon-pin-w"></i>@Html.DisplayFor(modelItem => f.FestivalTown.Name), @Html.DisplayFor(modelItem => f.FestivalCounty.Name)</li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                        <h3><a href="@Url.Action("Details", new { id = f.FestivalId })">@Html.DisplayFor(modelItem => f.FestivalName)</a></h3>
-                        @if (f.Description != null)
-                        {
-                            @Html.DisplayFor(modelItem => f.Description)
-                        }
-                        else
-                        {
-                            <h4><span class="label label-danger">Description not available.</span></h4>
-                        }
-                        <span class="plus"><a href="@Url.Action("Details", new { id = f.FestivalId })"><i class="glyphicon glyphicon-plus"></i></a></span>
-                    </div>
-                    <span class="clearfix borda"></span>
-                </article>
+                <div class="col-xs-12 col-sm-12 col-md-3">
+                    @if (f.FestivalLogo != null)
+                    {
+                        <img src="@f.FestivalLogo" class = "img-thumbnail"  />
+                    }
+                    else
+                    {
+                        <img class="img-thumbnail" style="width: 200px; height: 150px;" src="~/Content/FestivalLogo/download.jpg" />
+                    }
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-2">
+                    <ul class="meta-search">
+                        <li><i class="glyphicon glyphicon-calendar"></i>Start: @Html.DisplayFor(modelItem => f.StartDate)</li>
+                        <li><i class="glyphicon glyphicon-calendar"></i>End: @Html.DisplayFor(modelItem => f.EndDate)</li>
+                        <li><i class="glyphicon glyphicon-tags"></i>@Html.DisplayFor(modelItem => f.FType.FType)</li>
+                        <li><i class="ui-icon-pin-w"></i>@Html.DisplayFor(modelItem => f.FestivalTown.Name), @Html.DisplayFor(modelItem => f.FestivalCounty.Name)</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                    <h3><a href="@Url.Action("Details", new { id = f.FestivalId })">@Html.DisplayFor(modelItem => f.FestivalName)</a></h3>
+                    @if (f.Description != null)
+                    {
+                        @Html.DisplayFor(modelItem => f.Description)
+                    }
+                    else
+                    {
+                        <h4><span class="label label-danger">Description not available.</span></h4>
+                    }
+                    <span class="plus"><a href="@Url.Action("Details", new { id = f.FestivalId })"><i class="glyphicon glyphicon-plus"></i></a></span>
+                </div>
+                <span class="clearfix borda"></span>
+            </article>
             <hr />
         }
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Festival", "Home", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        <div style="margin-left: 10px;">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Festival", "Home", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
     </div>
 </div>
 
