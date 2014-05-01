@@ -17,7 +17,7 @@ namespace MyFestival.Controllers
     {
         MyFestivalDb db = new MyFestivalDb();
 
-        #region Create
+        #region Create VM for Event
 
         [HttpGet]
         public ActionResult Create2(int festID)
@@ -50,30 +50,28 @@ namespace MyFestival.Controllers
                     Newevent.EventsName = model.EventsName;
                     Newevent.EType = db.EType.Where(p => p.ID == model.selectedEType).Single();
                     Newevent.Location = model.Location;
+                    //Caught here!!!
+                    Newevent.FestivalID = model.festivalID = festID;
 
-                    if (Request.Files.Count != 0)
+                    if (Request.Files.Count > 0)
                     {
                         string fileName = model.EventsName;
-                        string serverPath = Server.MapPath("~\\Content\\EventPicture");
-                        Bitmap newImage = new Bitmap(Request.Files[0].InputStream);
+                        string serverPath = Server.MapPath("~\\Content\\FestivalLogo");
+                        Bitmap newImage = new Bitmap(Request.Files["imageFile"].InputStream);
                         newImage.Save(serverPath + "\\" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                        Newevent.EventLogo = "../../Content/EventPicture/" + fileName + ".jpg";
+                        Newevent.EventLogo = "../../Content/FestivalLogo/" + fileName + ".jpg";
 
-                        Newevent.FestivalID = model.festivalID = festID;
 
                         db.Events.Add(Newevent);
                         db.SaveChanges();
-                        //Change the model.festivalID to Newevent.FestivalID
-                        TempData["events"] = "Successfully added " + Newevent.EventsName + ".";
+                        TempData["event"] = "Successfully added " + Newevent.EventsName + ".";
                         return RedirectToAction("Details", "Festival", new { id = Newevent.FestivalID });
                     }
                     else
                     {
-                        Newevent.FestivalID = model.festivalID = festID;
                         db.Events.Add(Newevent);
                         db.SaveChanges();
-                        //Change the model.festivalID to Newevent.FestivalID
-                        TempData["events"] = "Successfully added " + Newevent.EventsName + ".";
+                        TempData["event"] = "Successfully added " + Newevent.EventsName + ".";
                         return RedirectToAction("Details", "Festival", new { id = Newevent.FestivalID });
                     }
                 }
@@ -88,6 +86,70 @@ namespace MyFestival.Controllers
 
             return View(model);
         }
+
+        /*[HttpGet]
+        public ActionResult Create2(int festID)
+        {
+            EventsVM events = new EventsVM { festivalID = festID };
+
+            events.eType = db.EType.ToDictionary(p => p.ID, q => q.EType);
+            events.eType.Add(-1, "----- Add New Event Type -----");
+
+            events.eventsDate = DateTime.Now;
+            events.startTime = DateTime.Now;
+            events.endTime = DateTime.Now;
+
+            return View(events);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create2(EventsVM model)
+        {
+            if (ModelState.IsValid != true)
+            {
+                if (model.selectedEType != -1)
+                {
+                    //db.save stuff from create.
+                    Events Newevent = new Events();
+                    Newevent.EndTime = model.endTime;
+                    Newevent.StartTime = model.startTime;
+                    Newevent.EventsDate = model.eventsDate;
+                    Newevent.EventsName = model.EventsName;
+                    Newevent.EType = db.EType.Where(p => p.ID == model.selectedEType).Single();
+                    Newevent.Location = model.Location;
+                    Newevent.FestivalID = model.festivalID;
+
+                    if (Request.Files.Count != 0)
+                    {
+                        string fileName = Guid.NewGuid().ToString();
+                        string serverPath = Server.MapPath("~\\Content\\EventPicture");
+                        Bitmap newImage = new Bitmap(Request.Files[0].InputStream);
+                        newImage.Save(serverPath + "\\" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                        model.eventsImage = "Content/EventPicture/" + fileName + ".jpg";
+
+                        db.Events.Add(Newevent);
+                        db.SaveChanges();
+                        return RedirectToAction("Details", "Festival", new { id = Newevent.FestivalID });
+                    }
+                    else
+                    {
+                        db.Events.Add(Newevent);
+                        db.SaveChanges();
+                        return RedirectToAction("Details", "Festival", new { id = Newevent.FestivalID });
+                    }
+                }
+                ModelState.AddModelError("", "No Event Type Picked");
+            }
+
+            model.eType = db.EType.ToDictionary(p => p.ID, q => q.EType);
+            model.eType.Add(-1, "----- Add New Event Type -----");
+            model.eventsDate = DateTime.Now;
+            model.startTime = DateTime.Now;
+            model.endTime = DateTime.Now;
+
+            return View(model);
+        }*/
         #endregion
 
         #region Create a new Event Type
@@ -186,33 +248,31 @@ namespace MyFestival.Controllers
                     events.EndTime = model.endTime;
                     events.Location = model.Location;
                     events.EventLogo = model.eventsImage;
-                    events.EventsDate = model.eventsDate;
+                    events.EventsDate = DateTime.Now;
                     events.FestivalID = model.festivalID;
 
                     if (Request.Files.Count != 0)
                     {
-                        string fileName = model.EventsName;
+                        string fileName = events.EventsName;
                         string serverPath = Server.MapPath("~\\Content\\EventPicture");
-                        Bitmap newImage = new Bitmap(Request.Files[0].InputStream);
+                        Bitmap newImage = new Bitmap(Request.Files["imageFile"].InputStream);
                         newImage.Save(serverPath + "\\" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
                         events.EventLogo = "../../Content/EventPicture/" + fileName + ".jpg";
 
-                        events.FestivalID = model.festivalID;
-                        
-                        db.Entry(model).State = EntityState.Modified;
+                        db.Entry(events).State = EntityState.Modified;
                         db.SaveChanges();
                         TempData["events"] = "Successfully updated " + events.EventsName + ".";
                         return RedirectToAction("Details", "Festival", new { id = events.FestivalID });
+
                     }
                     else
                     {
-                        events.FestivalID = model.festivalID;
-
-                        db.Entry(model).State = EntityState.Modified;
+                        db.Entry(events).State = EntityState.Modified;
                         db.SaveChanges();
                         TempData["events"] = "Successfully updated " + events.EventsName + ".";
                         return RedirectToAction("Details", "Festival", new { id = events.FestivalID });
                     }
+
                 }
                 ModelState.AddModelError("", "No Event Type Picked");
             }

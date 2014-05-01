@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -77,9 +78,9 @@ namespace MyFestival.Controllers
                 // Attempt to register the user
                 try
                 {
-                    string confirmationToken =  
-                        WebSecurity.CreateUserAndAccount(model.UserName, model.Password, 
-                                    new { model.Email}, true);
+                    string confirmationToken =
+                        WebSecurity.CreateUserAndAccount(model.UserName, model.Password,
+                                    new { model.Email }, true);
 
                     dynamic email = new Email("RegEmail");
                     email.To = model.Email;
@@ -132,56 +133,96 @@ namespace MyFestival.Controllers
         #endregion
 
         #region ForgotPassword
+
+        // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgetPassword()
         {
             return View();
         }
 
-        [AllowAnonymous]
+        // Post: /Account/ForgotPassword
         [HttpPost]
-        public ActionResult ForgetPassword(ForgetPasswordModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        #region Other Code
+        /*public ActionResult ForgetPassword(ForgetPasswordModel model, string UserName)
         {
-            if (ModelState.IsValid)
-            {
-                var emailAddress = (from u in db.UserProfiles
-                                    where u.UserName == model.Username
-                                    select u.Email).SingleOrDefault();
+            var userName = Membership.GetUser(UserName);
 
-                if (!string.IsNullOrEmpty(emailAddress))
+            if (userName == null)
+            {
+                TempData["Message"] = "UserName Not exist.";
+            }
+            else
+            {
+                //generate password token
+                var token = WebSecurity.GeneratePasswordResetToken(UserName);
+                //create url with above token
+                var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new { un = UserName, rt = token }, "http") + "'>Reset Password</a>";
+
+                model.Email = (from u in db.UserProfiles
+                               where u.UserName == UserName
+                               select u.Email).FirstOrDefault();
+                try
                 {
-                    string confirmationToken =
-                        WebSecurity.GeneratePasswordResetToken(model.Username);
                     dynamic email = new Email("ChngPasswordEmail");
-                    email.To = emailAddress;
+                    email.To = model.Email;
                     email.UserName = model.Username;
-                    email.ConfirmationToken = confirmationToken;
+                    email.restToken = token;
+                    email.HostLocation = Request.Url.Host + ':' + Request.Url.Port;
                     email.Send();
 
-                    return RedirectToAction("ResetPwStepTwo");
-                }
+                    return RedirectToAction("RegisterStepTwo", "Account", resetLink);
 
-                ModelState.AddModelError(String.Empty, "Sorry, your username can't be found, please try again.");
-                return View();
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = "Error occured while sending email." + ex.Message;
+                }
+                //only for testing
+                TempData["Message"] = resetLink;
+            }*/
+        #endregion
+
+        public ActionResult ForgetPassword(ForgetPasswordModel model, string UserName)
+        {
+            string emailAddress = (from i in db.UserProfiles
+                                    where i.UserName.Equals(model.Username)
+                                    select i.Email).Single();
+
+            if (!string.IsNullOrEmpty(emailAddress))
+            {
+                string confirmationToken =
+                    WebSecurity.GeneratePasswordResetToken(model.Username);
+                dynamic email = new Email("ChngPasswordEmail");
+                email.To = emailAddress;
+                email.UserName = model.Username;
+                email.ConfirmationToken = confirmationToken;
+                email.Send();
+
+                return RedirectToAction("ResetPwStepTwo");
             }
+
+            return RedirectToAction("InvalidUserName");
+        }
+
+        [AllowAnonymous]
+        public ActionResult InvalidUserName()
+        {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult ResetPwStepTwo()
         {
             return View();
         }
 
         [AllowAnonymous]
-        public ActionResult InvalidEmail()
+        public ActionResult ResetPasswordConfirmation(string Id)
         {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation(string confirm)
-        {
-            ResetPasswordConfirmModel model = new ResetPasswordConfirmModel() { Token = confirm };
+            ResetPasswordConfirmModel model = new ResetPasswordConfirmModel() { Token = Id };
             return View(model);
         }
 
@@ -196,14 +237,12 @@ namespace MyFestival.Controllers
             return RedirectToAction("PasswordResetFailure");
         }
 
-        [AllowAnonymous]
-        public ActionResult PasswordResetFailure()
+        public ActionResult PasswordResetSuccess()
         {
             return View();
         }
 
-        [AllowAnonymous]
-        public ActionResult PasswordResetSuccess()
+        public ActionResult PasswordResetFailure()
         {
             return View();
         }

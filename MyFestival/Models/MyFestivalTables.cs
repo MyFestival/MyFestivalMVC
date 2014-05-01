@@ -31,9 +31,9 @@ namespace MyFestival.Models
         [DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
-        [Display(Name = "Festival Location")]
+        /*[Display(Name = "Festival Location")]
         [DisplayFormat(ApplyFormatInEditMode = true)]
-        public DbGeography Location { get; set; }
+        public DbGeography Location { get; set; }*/
 
         [Required]
         [Display(Name = "County")]

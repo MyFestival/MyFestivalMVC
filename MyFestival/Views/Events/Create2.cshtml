@@ -7,16 +7,16 @@
 
 <h2>Add an event for #@Model.festivalID</h2>
 
-@*@using (Html.BeginForm())
-{*@
-@using (Html.BeginForm("Create2", "Events", FormMethod.Post, new {enctype="multipart/form-data"}))
+@using (Html.BeginForm())
 {
+@*@using (Html.BeginForm("Create2", "Events", FormMethod.Post, new {enctype="multipart/form-data"}))
+{*@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true)
-
+        @Html.HiddenFor(m => m.festivalID);
         <div class="form-group">
             @Html.LabelFor(model => model.EventsName, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -130,7 +130,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#eventsDate").datepicker('setDate', '+1',{dateFormat: "dd/mm/yy"}).on('changeDate', function (ev) {
+            $("#eventsDate").datepicker('setDate', '+1', { dateFormat: "yyyy/mm/dd" }).on('changeDate', function (ev) {
                 $(this).blur();
                 $(this).datepicker('hide');
             });

@@ -8,16 +8,12 @@ namespace MyFestival.Models
 {
     public class EventsVM
     {
-        #region Event Type
-
         [Required]
         [Display(Name = "Event Type")]
         [DisplayFormat(ApplyFormatInEditMode = true)]
         public Dictionary<int, string> eType { get; set; }
 
         public int selectedEType { get; set; }
-
-        #endregion
 
         [Required]
         public int ID { get; set; }

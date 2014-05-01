@@ -79,7 +79,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li role="presentation" class="dropdown-header">Festival</li>
-                                <li><a href="@Url.Action("Edit2", new { id = Model.FestivalId })"><span class="glyphicon glyphicon-pencil"></span>Edit @Model.FestivalName</a></li>
+                                <li><a href="@Url.Action("Edit2", new { id = Model.FestivalId })"><span class="glyphicon glyphicon-pencil"></span>  Edit @Model.FestivalName</a></li>
                                 <li><a href="@Url.Action("Delete", new { id = Model.FestivalId })"><span class="glyphicon glyphicon-trash"></span>Delete @Model.FestivalName</a></li>
                                 <li>@Html.ActionLink("Back to List", "Index")</li>
                             </ul>
@@ -89,10 +89,6 @@
             </table>
         </div>
         <br />
-        <div class=".col-md-8" onload="initialize()" onunload="GUnload()">
-            @Html.LabelFor(model => model.Location, null, new { @class = "control-label" })
-            @Html.DisplayFor(model => model.Location)
-        </div>
         <br />
         @if (Model.Events != null)
         {
@@ -108,7 +104,7 @@
                 }
             </div>
         </center>
-            @Html.ActionLink("Add Event", "Create2", "Events", new { festID = Model.FestivalId }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Add Event", "Create2", "Events", new { festID = Model.FestivalId }, new { @class = "btn btnnew btn-primary" })
             <br />
             <br />
             <!--<div class="table-responsive">-->
@@ -162,9 +158,9 @@
                                     <ul class="dropdown-menu">
                                         <li role="presentation" class="dropdown-header">Event</li>
                                         <li role="presentation" class="divider"></li>
-                                        <li><a href="@Url.Action("Edit2", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-pencil"></span>Edit @e.EventsName</a></li>
-                                        <li><a href="@Url.Action("Details", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-list-alt"></span>Details @e.EventsName</a></li>
-                                        <li><a href="@Url.Action("Delete", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-trash"></span>Delete @e.EventsName</a></li>
+                                        <li><a href="@Url.Action("Edit2", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-pencil"></span> Edit @e.EventsName</a></li>
+                                        <li><a href="@Url.Action("Details", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-list-alt"></span> Details @e.EventsName</a></li>
+                                        <li><a href="@Url.Action("Delete", "Events", new { id = e.ID })"><span class="glyphicon glyphicon-trash"></span> Delete @e.EventsName</a></li>
                                     </ul>
                                 </div>
                             </td>

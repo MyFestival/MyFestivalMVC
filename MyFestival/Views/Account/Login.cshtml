@@ -45,6 +45,9 @@
                     <br />   
                     <p>
                         @Html.ActionLink("Register", "Register", null, new { @class = "btn btn-info btn-sm" }) if you don't have a local account.
+                        <br/>
+                        <br/>
+                        Forgot your password? Recover by clicking @Html.ActionLink("here.", "ForgetPassword", null, new{@class="btn btn-warning"})
                     </p>
                         <!--<h4>3rd Party Login:</h4>-->
                         @*@Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })*@
@@ -53,8 +56,6 @@
         </div>
     </div>
 </div>
-
-@Html.ActionLink("ForgetPassword", "ForgetPassword")
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

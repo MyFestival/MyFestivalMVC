@@ -3,28 +3,30 @@ namespace MyFestival.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FestivalUserProfile : DbMigration
+    public partial class FinalDb : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.UserProfile",
+                "dbo.Users",
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
                         UserName = c.String(),
+                        Email = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
             
             CreateTable(
-                "dbo.Festivals",
+                "dbo.Festival",
                 c => new
                     {
                         FestivalId = c.Int(nullable: false, identity: true),
                         FestivalName = c.String(nullable: false, maxLength: 100),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),
-                        Location = c.Geography(),
+                        FestivalLogo = c.String(),
+                        Description = c.String(maxLength: 200),
                         UserID = c.Int(nullable: false),
                         FestivalCounty_ID = c.Int(nullable: false),
                         FestivalTown_ID = c.Int(nullable: false),
@@ -41,7 +43,7 @@ namespace MyFestival.Migrations
                 .Index(t => t.UserID);
             
             CreateTable(
-                "dbo.Counties",
+                "dbo.County",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
@@ -50,7 +52,7 @@ namespace MyFestival.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
-                "dbo.Towns",
+                "dbo.Town",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
@@ -59,7 +61,7 @@ namespace MyFestival.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
-                "dbo.FestivalTypes",
+                "dbo.FestivalType",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
@@ -68,7 +70,7 @@ namespace MyFestival.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
-                "dbo.Events",
+                "dbo.Event",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
@@ -78,16 +80,17 @@ namespace MyFestival.Migrations
                         StartTime = c.DateTime(nullable: false),
                         EndTime = c.DateTime(nullable: false),
                         Location = c.String(nullable: false),
+                        EventLogo = c.String(),
                         EType_ID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.EventTypes", t => t.EType_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Festivals", t => t.FestivalID, cascadeDelete: true)
+                .ForeignKey("dbo.EventType", t => t.EType_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Festival", t => t.FestivalID, cascadeDelete: true)
                 .Index(t => t.EType_ID)
                 .Index(t => t.FestivalID);
             
             CreateTable(
-                "dbo.EventTypes",
+                "dbo.EventType",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),

@@ -113,7 +113,7 @@ namespace MyFestival.Controllers
                     Newfestival.Description = model.sDescription;
                     Newfestival.FType = db.FestivalTypes.Where(p => p.ID == model.SelectedFestivalType).Single();
                     Newfestival.StartDate = model.startDate;
-                    Newfestival.Location = model.Location;
+                    //Newfestival.Location = model.Location;
                     Newfestival.FestivalTown = db.Towns.Where(p => p.ID == model.SelectedTown).Single();
                     Newfestival.UserID = WebSecurity.CurrentUserId;
 
@@ -173,7 +173,7 @@ namespace MyFestival.Controllers
                     FestivalName = fest.FestivalName,
                     SelectedFestivalType = fest.FType.ID,
                     startDate = fest.StartDate,
-                    Location = fest.Location,
+                    //Location = fest.Location,
                     SelectedTown = fest.FestivalTown.ID
                 };
 
@@ -201,7 +201,7 @@ namespace MyFestival.Controllers
                     fest.Description = model.sDescription;
                     fest.FType = db.FestivalTypes.SingleOrDefault(p => p.ID == model.SelectedFestivalType);
                     fest.StartDate = model.startDate;
-                    fest.Location = model.Location;
+                    //fest.Location = model.Location;
                     fest.FestivalTown = db.Towns.SingleOrDefault(p => p.ID == model.SelectedTown);
                     fest.UserID = WebSecurity.CurrentUserId;
 

@@ -1,4 +1,5 @@
-﻿using MyFestival.Models;
+﻿using System.Diagnostics;
+using MyFestival.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,10 @@ namespace MyFestival.Controllers
 
         public ActionResult Festival(string county, string searchString, string currentFilter, int? page)
         {
+
             MyFestivalDb db = new MyFestivalDb();
 
-            var festivals = from f in db.Festivals
+           var festivals = from f in db.Festivals
                             orderby f.StartDate
                             where f.StartDate >= System.DateTime.Now
                             select f;
@@ -49,10 +51,10 @@ namespace MyFestival.Controllers
             if (!String.IsNullOrEmpty(county))
             {
                 festivals = festivals.Where(
-                    f => f.FestivalCounty.Name.ToUpper().Contains(county.ToUpper()) /*|| f => f.FestivalName.ToUpper().Contains(searchString.ToUpper())*/
+                    f => f.FestivalCounty.Name.ToUpper().Contains(county.ToUpper())
                 );
             }
-            
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 festivals = festivals.Where(

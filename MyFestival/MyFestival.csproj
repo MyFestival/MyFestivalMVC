@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,12 @@
   <ItemGroup>
     <Reference Include="Calabonga.Mvc.PagedListExt">
       <HintPath>..\packages\PagedListExt.0.7.0\lib\net45\Calabonga.Mvc.PagedListExt.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.1\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList">
@@ -57,6 +64,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -203,9 +212,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\HtmlExtensions.cs" />
-    <Compile Include="Migrations\201402181118171_FestivalUserProfile1.cs" />
-    <Compile Include="Migrations\201402181118171_FestivalUserProfile1.Designer.cs">
-      <DependentUpon>201402181118171_FestivalUserProfile1.cs</DependentUpon>
+    <Compile Include="Migrations\201404300818006_FinalDb.cs" />
+    <Compile Include="Migrations\201404300818006_FinalDb.Designer.cs">
+      <DependentUpon>201404300818006_FinalDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelBinders\DbGeographyModelBinder.cs" />
@@ -236,10 +245,7 @@
     <Content Include="Content\EventPicture\download.jpg" />
     <Content Include="Content\Festival.css" />
     <Content Include="Content\FestivalLogo\download.jpg" />
-    <Content Include="Content\FestivalLogo\MyFestival2.jpg" />
-    <Content Include="Content\FestivalLogo\MyFestivalLogo2.png" />
     <Content Include="Content\jquery-ui.css" />
-    <Content Include="Content\FestivalLogo\MyFestival.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\SearchPage.css" />
     <Content Include="Content\signin.css" />
@@ -306,6 +312,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\myfestival.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Images\image002.png" />
     <Content Include="Images\image004.png" />
@@ -396,19 +403,24 @@
     <Content Include="Views\Account\ResetPwStepTwo.cshtml" />
     <Content Include="Views\Emails\ChngPasswordEmail.cshtml" />
     <Content Include="Views\Account\InvalidEmail.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\PasswordResetSuccess.cshtml" />
+    <Content Include="Views\Account\PasswordResetFailed.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\InvalidUserName.cshtml" />
     <Content Include="Views\Account\PasswordResetFailure.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201402181118171_FestivalUserProfile1.resx">
-      <DependentUpon>201402181118171_FestivalUserProfile1.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201404300818006_FinalDb.resx">
+      <DependentUpon>201404300818006_FinalDb.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

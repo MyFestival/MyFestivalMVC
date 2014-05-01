@@ -161,7 +161,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#startDate").datepicker("setDate", '+1', { dateFormat: "dd/mm/yy" }).on('changeDate', function (ev) {
+            $("#startDate").datepicker("setDate", '+1', { dateFormat: "yyyy/mm/dd" }).on('changeDate', function (ev) {
                 $(this).blur();
                 $(this).datepicker('hide');
             });
@@ -170,7 +170,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#endDate").datepicker("setDate", '+2', { dateFormat: "dd/mm/yy" }).on('changeDate', function (ev) {
+            $("#endDate").datepicker("setDate", '+2', { dateFormat: "yyyy/mm/dd " }).on('changeDate', function (ev) {
                 $(this).blur();
                 $(this).datepicker('hide');
             });

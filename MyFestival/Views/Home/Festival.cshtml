@@ -18,23 +18,8 @@
         {
             <center>
                 <div id="search">
-                    @* @Html.DropDownListFor(p => p.SelectedTown, Model.Towns.Select(p => new SelectListItem()
-                {
-                    Text = p.Value.ToString(),
-                    Value = p.Key.ToString(),
-                    Selected = false
-                }),
-                    new
-                    {
-                        @class = "form-control",
-                        @style = "width:210px",
-                        placeholder = "---- Select a Town ----"
-                    })*@
-                    <select class="form-control" style="width:210px">
-                        <option>Test</option>
-                    </select>
-                    <input type="text" style="width:210px; float: left; margin-top: -60px; margin-left: 808px; padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
-                    <button id="find" type="submit" style="float: right; margin-top: -60px; margin-right: 75px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
+                    <input type="text" style="width:210px; float: left; margin-top: -28px; margin-left: 808px; padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
+                    <button id="find" type="submit" style="float: right; margin-top: -28px; margin-right: 5px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
                 </div>
             </center>
             

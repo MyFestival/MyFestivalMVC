@@ -5,13 +5,13 @@ namespace MyFestival.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class FestivalUserProfile : IMigrationMetadata
+    public sealed partial class FinalDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FestivalUserProfile));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(FinalDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201402181118171_FestivalUserProfile"; }
+            get { return "201404300818006_FinalDb"; }
         }
         
         string IMigrationMetadata.Source

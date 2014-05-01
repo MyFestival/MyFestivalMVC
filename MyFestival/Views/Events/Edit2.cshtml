@@ -13,7 +13,7 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true)
-
+        @Html.HiddenFor(model => model.festivalID)
         <div class="form-group">
             @Html.LabelFor(model => model.EventsName, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -116,13 +116,13 @@
         };
     </script>
     
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#eventsDate").datepicker().on('changeDate', function (ev) {
-                    $(this).blur();
-                    $(this).datepicker('hide');
-                });
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#eventsDate").datepicker('setDate', '+1', { dateFormat: "yyyy/mm/dd" }).on('changeDate', function (ev) {
+                $(this).blur();
+                $(this).datepicker('hide');
             });
+        });
     </script>
 
 }

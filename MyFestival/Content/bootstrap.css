@@ -348,6 +348,11 @@ img {
 .img-circle {
   border-radius: 50%;
 }
+.btnnew {
+    float: right;
+    margin-right: 25px;
+
+}
 hr {
   margin-top: 20px;
   margin-bottom: 20px;
