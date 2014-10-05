@@ -18,8 +18,9 @@
         {
             <center>
                 <div id="search">
-                    <input type="text" style="width:210px; float: left; margin-top: -28px; margin-left: 808px; padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
-                    <button id="find" type="submit" style="float: right; margin-top: -28px; margin-right: 5px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
+                    Search By @Html.RadioButton("searchBy","County") <text>County</text>
+                    <input type="text" style="width:210px; float: left; margin-top: -49px; margin-left: 808px; padding: 6px 6px;" id="SearchString" name="SearchString" class="form-control" placeholder="Search for.......">
+                    <button id="find" type="submit" style="float: right; margin-top: -49px; margin-right: 71px;" class="btn btn-success"><i class="glyphicon glyphicon-search glyphicon-search"></i></button>
                 </div>
             </center>
             
@@ -98,6 +99,12 @@
         $("#bsearch").toggle();
     });
 </script>
+
+<style>
+    #searchby {
+        margin-top: -49px;
+    }
+</style>
 
 
 

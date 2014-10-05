@@ -145,51 +145,9 @@ namespace MyFestival.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        #region Other Code
-        /*public ActionResult ForgetPassword(ForgetPasswordModel model, string UserName)
+        public ActionResult ForgetPassword(ForgetPasswordModel model)
         {
-            var userName = Membership.GetUser(UserName);
-
-            if (userName == null)
-            {
-                TempData["Message"] = "UserName Not exist.";
-            }
-            else
-            {
-                //generate password token
-                var token = WebSecurity.GeneratePasswordResetToken(UserName);
-                //create url with above token
-                var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new { un = UserName, rt = token }, "http") + "'>Reset Password</a>";
-
-                model.Email = (from u in db.UserProfiles
-                               where u.UserName == UserName
-                               select u.Email).FirstOrDefault();
-                try
-                {
-                    dynamic email = new Email("ChngPasswordEmail");
-                    email.To = model.Email;
-                    email.UserName = model.Username;
-                    email.restToken = token;
-                    email.HostLocation = Request.Url.Host + ':' + Request.Url.Port;
-                    email.Send();
-
-                    return RedirectToAction("RegisterStepTwo", "Account", resetLink);
-
-                }
-                catch (Exception ex)
-                {
-                    TempData["Message"] = "Error occured while sending email." + ex.Message;
-                }
-                //only for testing
-                TempData["Message"] = resetLink;
-            }*/
-        #endregion
-
-        public ActionResult ForgetPassword(ForgetPasswordModel model, string UserName)
-        {
-            string emailAddress = (from i in db.UserProfiles
-                                    where i.UserName.Equals(model.Username)
-                                    select i.Email).Single();
+            string emailAddress = (db.UserProfiles.Where(u => u.UserName.Equals(model.Username)).Select(u => u.Email)).SingleOrDefault();
 
             if (!string.IsNullOrEmpty(emailAddress))
             {
@@ -199,18 +157,13 @@ namespace MyFestival.Controllers
                 email.To = emailAddress;
                 email.UserName = model.Username;
                 email.ConfirmationToken = confirmationToken;
+                email.HostLocation = Request.Url.Host + ':' + Request.Url.Port;
                 email.Send();
 
                 return RedirectToAction("ResetPwStepTwo");
             }
-
-            return RedirectToAction("InvalidUserName");
-        }
-
-        [AllowAnonymous]
-        public ActionResult InvalidUserName()
-        {
-            return View();
+            TempData["user"] = "Invailed Username " + model.Username + ".";
+            return RedirectToAction("ForgetPassword");
         }
 
         [AllowAnonymous]
@@ -219,32 +172,36 @@ namespace MyFestival.Controllers
             return View();
         }
 
+        // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation(string Id)
+        public ActionResult ResetPassword(string confirm)
         {
-            ResetPasswordConfirmModel model = new ResetPasswordConfirmModel() { Token = Id };
+            ResetPasswordModel model = new ResetPasswordModel();
+            model.ReturnToken = confirm;
             return View(model);
         }
 
-        [AllowAnonymous]
+        // POST: /Account/ResetPassword
         [HttpPost]
-        public ActionResult ResetPasswordConfirmation(ResetPasswordConfirmModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordModel model)
         {
-            if (WebSecurity.ResetPassword(model.Token, model.NewPassword))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("PasswordResetSuccess");
+                bool resetResponse = WebSecurity.ResetPassword(model.ReturnToken, model.Password);
+                if (resetResponse)
+                {
+                    TempData["password"] = "Password successfully Changed";
+                    return View("Login");
+                }
+                else
+                {
+                    TempData["password"] = "Something went horribly wrong!";
+                    return View(model);
+                }
             }
-            return RedirectToAction("PasswordResetFailure");
-        }
-
-        public ActionResult PasswordResetSuccess()
-        {
-            return View();
-        }
-
-        public ActionResult PasswordResetFailure()
-        {
-            return View();
+            return View(model);
         }
 
         #endregion

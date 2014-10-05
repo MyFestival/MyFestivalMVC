@@ -24,10 +24,17 @@ namespace MyFestival.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Contact()
         {
             return View();
         }
+
+       /* [HttpPost]
+        public ActionResult Contact(ContactUs contact)
+        {
+            return View();
+        }*/
 
         public ActionResult Festival(string county, string searchString, string currentFilter, int? page)
         {
@@ -48,12 +55,6 @@ namespace MyFestival.Controllers
                 searchString = currentFilter;
             }
 
-            if (!String.IsNullOrEmpty(county))
-            {
-                festivals = festivals.Where(
-                    f => f.FestivalCounty.Name.ToUpper().Contains(county.ToUpper())
-                );
-            }
 
             if (!String.IsNullOrEmpty(searchString))
             {

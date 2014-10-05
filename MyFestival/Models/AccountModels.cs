@@ -91,21 +91,21 @@ namespace MyFestival.Models
         public string Username { get; set; }
     }
 
-    public class ResetPasswordConfirmModel
+    public class ResetPasswordModel
     {
-
-        public string Token { get; set; }
+        [Required]
+        [Display(Name = "New Password")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
-        public string NewPassword { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "New password and confirmation does not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string ReturnToken { get; set; }
     }
 
     public class ExternalLogin
