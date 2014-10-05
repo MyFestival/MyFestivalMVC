@@ -1,4 +1,4 @@
-MyFestivalMVC
+My Festival MVC
 =============
 
 Web app for MyFestival Android App
