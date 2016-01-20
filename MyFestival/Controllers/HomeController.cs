@@ -43,7 +43,7 @@ namespace MyFestival.Controllers
 
            var festivals = from f in db.Festivals
                             orderby f.StartDate
-                            where f.StartDate >= System.DateTime.Now
+                            where f.StartDate <= System.DateTime.Now
                             select f;
 
             if (searchString != null)
